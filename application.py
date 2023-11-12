@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template,jsonify
-from flask_cors import CORS,cross_origin
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
 application = Flask(__name__)
@@ -7,12 +6,10 @@ application = Flask(__name__)
 app = application
 
 @app.route('/')
-@cross_origin()
 def home_page():
     return render_template('index.html')
 
 @app.route('/predict',methods=['GET','POST'])
-@cross_origin()
 def predict_datapoint():
     if request.method == 'GET':
         return render_template('index.html')
@@ -39,7 +36,6 @@ def predict_datapoint():
         return render_template('index.html',results=results,pred_df = pred_df)
     
 @app.route('/predictAPI',methods=['POST'])
-@cross_origin()
 def predict_api():
     if request.method=='POST':
         data = CustomData(
@@ -62,4 +58,4 @@ def predict_api():
         return jsonify(dct)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0')
